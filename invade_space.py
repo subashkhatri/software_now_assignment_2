@@ -30,3 +30,4 @@ for side in range(4):
 border.hideturtle()
 
 # Initial Score be 0
+score = 0
