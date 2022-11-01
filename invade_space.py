@@ -31,3 +31,14 @@ border.hideturtle()
 
 # Initial Score be 0
 score = 0
+
+# Draw the pen
+draw_score = turtle.Turtle()
+draw_score.speed(0)
+draw_score.color("white")
+draw_score.penup()
+draw_score.setposition(-290, 280)
+score_string = "Score: %s" %score
+draw_score.write(score_string, False, align="left", font=("Arial", 14, "normal"))
+draw_score.hideturtle()
+
