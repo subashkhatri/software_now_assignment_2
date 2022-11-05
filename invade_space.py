@@ -74,4 +74,4 @@ for enemy in invaders:
     y =  random.randint(100, 250)
     enemy.setposition(x, y)
 
-enemyspeed = 5
+enemy_speed = 5
