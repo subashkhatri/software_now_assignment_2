@@ -9,9 +9,8 @@ import turtle
 # Setup the Screen
 window = turtle.Screen()
 window.bgcolor("black")
-window.title("Invaders by Subash and Ram")
+window.title("Invaders by Subash & Ram")
 window.bgpic("background.gif")
-
 
 
 # Register shape of protectors
@@ -21,7 +20,7 @@ turtle.register_shape("protector.gif")
 # Draw Border
 border = turtle.Turtle()
 border.speed(0)
-border.color("white")
+border.color("red")
 border.penup()
 border.setposition(-300,-300)
 border.pendown()
@@ -80,7 +79,7 @@ invader_speed = 5
 # Create fire_balls for the protector to attack the invaders
 fire_ball = turtle.Turtle()
 fire_ball.color("red")
-fire_ball.shape("triangle")
+fire_ball.shape("circle")
 fire_ball.penup()
 fire_ball.speed(0)
 fire_ball.setheading(90)
@@ -205,7 +204,7 @@ while True:
             score += 10
             score_string = "Score: %s" %score
             draw_score.clear()
-            draw_score.write(score_string, False, align="left", font=("Arial", 14, "normal"))
+            draw_score.write(score_string, False, align="center", font=("Arial", 14, "normal"))
         # check for a collision between the protector and invader
         if is_collision_invader_protector(protector, invader):
             Game_Over = True
@@ -213,7 +212,14 @@ while True:
             protector.hideturtle()
             fire_ball.hideturtle()
             for e in invaders:
+                e = turtle.Turtle()
+                e.speed(0)
+                e.penup()
                 e.hideturtle()
+                e.goto(0,0)
+                e.write("Press ESC to exit the game")
+                window.listen()
+                window.onkeypress(window.bye, "Escape")
             window.bgpic("end.gif")
             break
 
@@ -227,5 +233,3 @@ while True:
     if fire_ball.ycor() > 275:
         fire_ball.hideturtle()
         fire_ball_state = "ready"
-
-delay = input("Press enter to finish")
