@@ -38,9 +38,9 @@ draw_score = turtle.Turtle()
 draw_score.speed(0)
 draw_score.color("white")
 draw_score.penup()
-draw_score.setposition(-290, 280)
+draw_score.setposition(-250, 250)
 score_string = "Score: %s" %score
-draw_score.write(score_string, False, align="left", font=("Arial", 14, "normal"))
+draw_score.write(score_string, False, align="center", font=("Arial", 14, "normal"))
 draw_score.hideturtle()
 
 
@@ -217,7 +217,7 @@ while True:
                 e.penup()
                 e.hideturtle()
                 e.goto(0,0)
-                e.write("Press ESC to exit the game")
+                e.write("Press ESC to exit the game", False, align="center", font=("Arial", 14, "normal"))
                 window.listen()
                 window.onkeypress(window.bye, "Escape")
             window.bgpic("end.gif")
