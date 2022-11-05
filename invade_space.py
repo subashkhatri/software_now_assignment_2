@@ -15,7 +15,7 @@ window.bgpic("background.gif")
 
 # Register shape of players
 turtle.register_shape("invader.gif")
-turtle.register_shape("player.gif")
+turtle.register_shape("protector.gif")
 
 # Draw Border
 border = turtle.Turtle()
@@ -65,13 +65,13 @@ for i in range(number_of_invaders):
     # create the enemy
     invaders.append(turtle.Turtle())
 
-for enemy in invaders:
-    #enemy.color("Red")
-    enemy.shape("invader.gif")
-    enemy.penup()
-    enemy.speed(0)
+for invader in invaders:
+    #invader.color("Red")
+    invader.shape("invader.gif")
+    invader.penup()
+    invader.speed(0)
     x = random.randint(-200, 200)
     y =  random.randint(100, 250)
-    enemy.setposition(x, y)
+    invader.setposition(x, y)
 
-enemy_speed = 5
+invader_speed = 5
