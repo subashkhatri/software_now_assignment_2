@@ -1,5 +1,6 @@
 # Space Invader
 # Game developed by Subash khatri and Ram Kumar Shrestha
+# git link:- git@github.com:subashkhatri/software_now_assignment_2.git
 # 01/11/2022
 
 import math
