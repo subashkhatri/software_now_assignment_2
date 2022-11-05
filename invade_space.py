@@ -75,3 +75,44 @@ for invader in invaders:
     invader.setposition(x, y)
 
 invader_speed = 5
+
+# Create fire_balls for the protector to attack the invaders
+fire_ball = turtle.Turtle()
+fire_ball.color("red")
+fire_ball.shape("triangle")
+fire_ball.penup()
+fire_ball.speed(2)
+fire_ball.setheading(90)
+fire_ball.shapesize(0.5,0.5)
+fire_ball.hideturtle()
+
+fire_ball_speed = 30
+
+fire_ball_state = "ready"
+
+#Move the player right and left
+
+def move_left():
+    x = protector.xcor()
+    x -= protector_speed
+    if x < -280:
+        x -= 280
+    protector.setx(x)
+
+def move_right():
+    x = protector.xcor()
+    x += protector_speed
+    if x > 280:
+        x = 280
+    protector.setx(x)
+
+def fire_ball_action():
+    global fire_ball_state
+
+    if fire_ball_state == "ready":
+        fire_ball_state = "fire"
+        x = protector.xcor()
+        y = protector.ycor() + 10
+        fire_ball.setposition(x,y)
+        fire_ball.showturtle()
+        
