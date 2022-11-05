@@ -2,6 +2,7 @@
 # Game developed by Subash khatri and Ram Kumar Shrestha
 # 01/11/2022
 
+import math
 import random
 import turtle
 
@@ -13,7 +14,7 @@ window.bgpic("background.gif")
 
 
 
-# Register shape of players
+# Register shape of protectors
 turtle.register_shape("invader.gif")
 turtle.register_shape("protector.gif")
 
@@ -44,7 +45,7 @@ draw_score.write(score_string, False, align="left", font=("Arial", 14, "normal")
 draw_score.hideturtle()
 
 
-# Create the player turtle
+# Create the protector turtle
 protector = turtle.Turtle()
 #protector.color("blue")
 protector.shape("protector.gif")
@@ -62,7 +63,7 @@ invaders = []
 
 # Add invaders to the list
 for i in range(number_of_invaders):
-    # create the enemy
+    # create the invader
     invaders.append(turtle.Turtle())
 
 for invader in invaders:
@@ -81,7 +82,7 @@ fire_ball = turtle.Turtle()
 fire_ball.color("red")
 fire_ball.shape("triangle")
 fire_ball.penup()
-fire_ball.speed(2)
+fire_ball.speed(0)
 fire_ball.setheading(90)
 fire_ball.shapesize(0.5,0.5)
 fire_ball.hideturtle()
@@ -90,7 +91,7 @@ fire_ball_speed = 30
 
 fire_ball_state = "ready"
 
-#Move the player right and left
+#Move the protector right and left
 
 def move_left():
     x = protector.xcor()
@@ -115,4 +116,116 @@ def fire_ball_action():
         y = protector.ycor() + 10
         fire_ball.setposition(x,y)
         fire_ball.showturtle()
-        
+
+
+# For collision between invader and fire_ball
+def is_collision_invader_fire_ball(t1, t2):
+    distance = math.sqrt(math.pow(t1.xcor()-t2.xcor(),2)+math.pow(t1.ycor()-t2.ycor(),2))
+    if distance < 25:
+        return True
+    else:
+        return False
+
+# For collision between invader and protector
+def is_collision_invader_protector(t1, t2):
+    distance = math.sqrt(math.pow(t1.xcor()-t2.xcor(),2)+math.pow(t1.ycor()-t2.ycor(),2))
+    if distance < 30:
+        return True
+    else:
+        return False
+
+
+# Create keyboard bindings
+turtle.listen()
+turtle.onkey(move_left, "Left")
+turtle.onkey(move_right, "Right")
+turtle.onkey(fire_ball_action, "space")
+
+# Main game loop
+Game_Over = False
+missed_invaders = 0
+while True:
+
+    for invader in invaders:
+        # Move the invader
+        x = invader.xcor()
+        x += invader_speed
+        invader.setx(x)
+
+
+        # Move the invader back and down
+        if invader.xcor() > 270:
+            # Move all invaders down
+            for e in invaders:
+                y = e.ycor()
+                y -= 40
+                e.sety(y)
+                if e.ycor() < -285 and Game_Over == False:
+                    e.hideturtle()
+                    missed_invaders += 1
+                    if missed_invaders == 5:
+                        Game_Over = True
+                    x = random.randint(-200, 200)
+                    y = random.randint(100, 250)
+                    e.setposition(x, y)
+                    e.showturtle()
+            # Change invader direction
+            invader_speed *= -1
+
+        if invader.xcor() < -270:
+            # Move all invaders down
+            for e in invaders:
+                y = e.ycor()
+                y -= 40
+                e.sety(y)
+                if e.ycor() < -285 and Game_Over == False:
+                    e.hideturtle()
+                    missed_invaders += 1
+                    if missed_invaders ==5:
+                        Game_Over = True
+                    x = random.randint(-200, 200)
+                    y = random.randint(100, 250)
+                    e.setposition(x, y)
+                    e.showturtle()
+            # Change invader direction
+            invader_speed *= -1
+
+        # check for a collision between the fire_ball and the invader
+        if is_collision_invader_fire_ball(fire_ball, invader):
+            # Reset the fire_ball
+            fire_ball.hideturtle()
+            fire_ball_state = "ready"
+            fire_ball.setposition(0, -400)
+            # Reset the invader
+            x = random.randint(-200, 200)
+            y = random.randint(100, 250)
+            invader.setposition(x, y)
+            invader_speed += 0.5
+            # update the score
+            score += 10
+            score_string = "Score: %s" %score
+            draw_score.clear()
+            draw_score.write(score_string, False, align="left", font=("Arial", 14, "normal"))
+        # check for a collision between the protector and invader
+        if is_collision_invader_protector(protector, invader):
+            Game_Over = True
+        if Game_Over == True:
+            protector.hideturtle()
+            fire_ball.hideturtle()
+            for e in invaders:
+                e.hideturtle()
+            window.bgpic("end.gif")
+            break
+
+    # Move the fire_ball
+    if fire_ball_state == "fire":
+        y = fire_ball.ycor()
+        y += fire_ball_speed
+        fire_ball.sety(y)
+
+    # Check to see if the fire_ball has gone to the top
+    if fire_ball.ycor() > 275:
+        fire_ball.hideturtle()
+        fire_ball_state = "ready"
+
+delay = input("Press enter to finish")
